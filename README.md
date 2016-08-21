@@ -1,7 +1,9 @@
 # rover
 Proof of Concept code for CVE-2016-5696
 
-Rover finds abritrary client ports to complete the 4 tuple of information needed to confirm that two host are communicating. When run, rover establishes a connection with the server, syncs its internal clock to the server challenge ack time, then begins to search through the default ephemeral port range of most linux hosts (this can be changed if required).
+Rover is a small python program to discover abritrary client source ports as shown in CVE-2016-569. Once the source port is known, the 4 tuple of information needed to confirm that two host are communicating can be completed. When run, rover establishes a connection with the target server, syncs its internal clock to the server challenge ack time, then begins to search through the default ephemeral port range of most linux hosts (this can be changed if required).
+
+For more information, find the original paper [here](https://www.usenix.org/system/files/conference/usenixsecurity16/sec16_paper_cao.pdf)
 
 This has been tested to run on kali 1.0  against an **Ubuntu 14.04 SSH server**. It should work against others, however some modification to the code may/will be needed. Requirements are:
 
