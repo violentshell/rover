@@ -174,10 +174,11 @@ def time_sync(svr_seq, sync=False, rerun=0, rehs=0, runcount=1, sleeptime=0):
                 rehs += 1
                 if rehs >= 2:
                     tcp_hs.send_syn(random.randrange(0, 2 ** 16))
-                if not tcp_hs.alive:
-                    pass
-                else:
-                    pass
+                # ... what is this doing here
+                #if not tcp_hs.alive:
+                    #pass
+                #else:
+                    #pass
 
             # Out of sync, adjust
             elif result > 100:
