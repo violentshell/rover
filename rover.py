@@ -1,12 +1,14 @@
+import logging
+logging.getLogger("scapy.runtime").setLevel(logging.ERROR)
+logger = logging.getLogger(__name__)
+
 from scapy.all import *
 from multiprocessing import Process, Queue
 import sys
-import logging
 import time
 import copy
 import argparse
 
-logger = logging.getLogger(__name__)
 
 
 # Handles the initial TCP handshake
