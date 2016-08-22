@@ -2,12 +2,14 @@ import logging
 logging.getLogger("scapy.runtime").setLevel(logging.ERROR)
 logger = logging.getLogger(__name__)
 
-from scapy.all import *
+from scrapy.all import *
 from multiprocessing import Process, Queue
 import sys
 import time
 import copy
 import argparse
+import os
+import random
 
 
 
