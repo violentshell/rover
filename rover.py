@@ -66,7 +66,11 @@ class TcpHandshake(object):
         self.l4[TCP].ack = pkt[TCP].seq + 1
         self.l4[TCP].flags = "A"
         self.seq_next = self.l4[TCP].seq
-        response = sr1(self.l4, verbose=False)
+        if self.dport == 22:
+            response = sr1(self.l4, verbose=False)
+        else:
+            send(self.l4, verbose=False)
+            response = None
         self.alive = True
         return self.handle_recv(response)
 
@@ -154,9 +158,9 @@ def time_sync(svr_seq, sync=False, rerun=0, rehs=0, runcount=1, sleeptime=0):
             x.run()
             logger.debug('Starting: %s' % str(time.time()))
 
-            # send 200 packets
+            # send 500 packets (Better sync quality)
             start = time.time()
-            tcp_hs.send_bulk(200)
+            tcp_hs.send_bulk(500)
             logger.debug('Done: %s' % str(time.time()))
 
             # wait for results
@@ -164,9 +168,9 @@ def time_sync(svr_seq, sync=False, rerun=0, rehs=0, runcount=1, sleeptime=0):
             logger.debug(str(result))
 
             # If it is not 100, we are out of time. Readjust
-            if result >= 200:
+            if result >= 180:
                 rerun = 0
-                sleeptime = 0.25
+                sleeptime += 0.25
                 logger.warn('Way out of sync: %s' % result)
 
             # Way out, might need to re handshake
@@ -183,7 +187,7 @@ def time_sync(svr_seq, sync=False, rerun=0, rehs=0, runcount=1, sleeptime=0):
             # Out of sync, adjust
             elif result > 100:
                 rerun = 0
-                sleeptime = 0.015 * runcount
+                sleeptime += 0.015 
                 logger.info('Out of sync: %s' % result)
 
             # Looks good
